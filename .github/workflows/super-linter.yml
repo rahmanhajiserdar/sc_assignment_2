@@ -5,9 +5,10 @@ on: # yamllint disable-line rule:truthy
   push: null
   pull_request: null
 
-permissions: {
+permissions:
   contents: read
-}
+  packages: read
+  statuses: write
 
 jobs:
   build:
@@ -30,7 +31,7 @@ jobs:
           persist-credentials: false
 
       - name: Super-linter
-        uses: super-linter/super-linter@v8.2.1 # x-release-please-version
+        uses: super-linter/super-linter@5a6e60d887ce1705e8bebb058552e48f8dfe4d1f # v8.2.1
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
