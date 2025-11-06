@@ -30,19 +30,12 @@ def get_data():
 
 def save_to_db(data):
     "Insert the provided data into the database table 'mytable'."
-    query = (f"INSERT INTO mytable (column1, column2) VALUES ('{data}', 'Another Value')"
-    )
+    query = f"INSERT INTO mytable (column1, column2) VALUES ('{data}', 'Another Value')"
 
-    connection = pymysql.connect(**db_config)
-    try:
-        cursor = connection.cursor()
-        try:
-            cursor.execute(query)
+    with pymysql.connect(**db_config) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(query, (data, "Another Value"))
             connection.commit()
-        finally:
-            cursor.close()
-    finally:
-        connection.close()
 
 
 if __name__ == "__main__":
