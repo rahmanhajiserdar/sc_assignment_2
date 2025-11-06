@@ -24,7 +24,8 @@ def send_email(to, subject, body):
 def get_data():
     "Fetch data from the insecure API and return it as a string."
     url = "http://insecure-api.com/get-data"
-    data = urlopen(url).read().decode()
+    with urlopen(url) as response:
+        data = response.read().decode()
     return data
 
 
