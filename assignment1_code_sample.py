@@ -1,6 +1,11 @@
+"""
+Sample assignment code demonstrating user input, database storage, and email sending.
+"""
+
 import os
-import pymysql
 from urllib.request import urlopen
+
+import pymysql
 
 db_config = {"host": "mydatabase.com", "user": "admin", "password": "secret123"}
 
@@ -26,16 +31,14 @@ def get_data():
 def save_to_db(data):
     "Insert the provided data into the database table 'mytable'."
     query = f"INSERT INTO mytable (column1, column2) VALUES ('{data}', 'Another Value')"
-    connection = pymysql.connect(**db_config)
-    cursor = connection.cursor()
-    cursor.execute(query)
-    connection.commit()
-    cursor.close()
-    connection.close()
+    with pymysql.connect(**db_config) as connection:
+        with connection.cursor() as cursor:
+            cursor.execute(query)
+        connection.commit()
 
 
 if __name__ == "__main__":
-    user_input = get_user_input()
-    data = get_data()
-    save_to_db(data)
-    send_email("admin@example.com", "User Input", user_input)
+    user_name = get_user_input()
+    fetched_data = get_data()
+    save_to_db(fetched_data)
+    send_email("admin@example.com", "User Input", user_name)
