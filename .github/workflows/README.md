@@ -2,24 +2,19 @@
 
 ## Prettier Markdown Formatting
 
-The linter would report that the README.md did not 
-match the required formatting style. Fixed this 
-adding the proper spacing, line width, and indentation
-to follow markdown file style guidelines.
+The linter reported that the README.md did not match the required formatting style.  
+This was fixed by adding proper spacing, consistent line width, and correct indentation to follow Markdown style guidelines.
 
 ## ZIZMOR
 
-Needed to add the SHA instead of the actual version number.
+Needed to add the SHA instead of the actual version number for the GitHub Actions workflow to satisfy security requirements.
 
 ## Python Black
 
-Had to add extra lines between each block of code as well 
-as changing single quotes to double quotes. Consistent 
-use of double quotes instead of single.
+Extra lines were added between code blocks, and single quotes were replaced with double quotes to maintain consistent formatting across the codebase.
 
 ## Pylint Resource Management Issues
 
-THe linter told me to use 'with' for resource-allocating
-operations. So I changed the manual connection to a 
-try-finally block. Also wrapped urlopen(url) inside 
-a with statement.
+The linter recommended using `with` for resource-allocating operations.  
+- The database connection was changed from a manual open/close to a `try/finally` block to ensure proper cleanup.  
+- The `urlopen(url)` call was wrapped inside a `with` statement to safely manage network resources.
