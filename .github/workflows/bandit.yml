@@ -1,7 +1,6 @@
 name: Bandit
 
-# skip CKV2_GHA_1 for this workflow
-on: # checkov:skip=CKV2_GHA_1 "Required for Bandit Code Scanning API"
+on:
   workflow_dispatch:
 
 jobs:
@@ -11,6 +10,23 @@ jobs:
       security-events: write
       actions: read
       contents: read
+
     steps:
-      - name: Perform Bandit Analysis
-        uses: PyCQA/bandit-action@v1
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Bandit
+        run: pip install bandit
+
+      - name: Run Bandit and generate SARIF
+        run: bandit -r . -f sarif -o results.sarif
+
+      - name: Upload SARIF file to GitHub Code Scanning
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: results.sarif
