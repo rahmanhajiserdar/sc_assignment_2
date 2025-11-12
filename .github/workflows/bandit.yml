@@ -20,17 +20,15 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install Bandit
-        run: pip install bandit
+      - name: Install Bandit and SARIF tools
+        run: |
+          pip install bandit sarif-tools
 
       - name: Run Bandit (JSON output)
         run: bandit -r . -f json -o bandit-results.json || true
 
-      - name: Convert Bandit JSON to SARIF
-        uses: microsoft/sarif-tools@v2
-        with:
-          inputFile: bandit-results.json
-          outputFile: results.sarif
+      - name: Convert JSON to SARIF
+        run: sarif convert bandit-results.json -o results.sarif
 
       - name: Upload SARIF file to GitHub
         uses: github/codeql-action/upload-sarif@v3
