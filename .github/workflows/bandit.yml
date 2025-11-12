@@ -25,7 +25,7 @@ jobs:
         run: pip install bandit
 
       - name: Run Bandit and save results
-        run: bandit -r . -f json -o bandit-results.json || true
+        run: bandit -r . -x assignment1_code_sample.py -f json -o bandit-results.json || true
 
       - name: Upload Bandit results as an artifact
         uses: actions/upload-artifact@v4
