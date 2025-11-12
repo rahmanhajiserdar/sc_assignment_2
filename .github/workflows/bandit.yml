@@ -23,10 +23,16 @@ jobs:
       - name: Install Bandit
         run: pip install bandit
 
-      - name: Run Bandit and generate SARIF
-        run: bandit -r . -f sarif -o results.sarif
+      - name: Run Bandit (JSON output)
+        run: bandit -r . -f json -o bandit-results.json || true
 
-      - name: Upload SARIF file to GitHub Code Scanning
+      - name: Convert Bandit JSON to SARIF
+        uses: microsoft/sarif-tools@v2
+        with:
+          inputFile: bandit-results.json
+          outputFile: results.sarif
+
+      - name: Upload SARIF file to GitHub
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: results.sarif
